@@ -1,6 +1,8 @@
 const http = require("http");
-const products = require("./data/products.json"); //getting the data from the json file
-const server = http.createServer((req, res) => { //Creates a new web server object.
+const { getProducts, getProduct } = require("./controllers/productController");
+
+const server = http.createServer((req, res) => {
+  //Creates a new web server object.
   // ## 1st COMMENT
 
   // res.statusCode = 200
@@ -11,10 +13,12 @@ const server = http.createServer((req, res) => { //Creates a new web server obje
   // ^^^ Instead of doing all the above lines, we can simply shorten up with writeHead and end
   if (req.url === "/api/products" && req.method === "GET") {
     // This is the api point that gets hit.
-    res.writeHead(200, { "Content-Type": "application/json" });
-    // ^^^ writeHead gets the status code and  type
-    res.end(JSON.stringify(products)); //No need to stringy while using express
-  } else {
+    getProducts(req, res);
+  } else if (req.url.match(/\/api\/products\/([0-9]+)/) && req.method === "GET") {
+    // this url expects 'api/product/*number* and it should be a GET call
+    const id = req.url.split("/")[3]; //splitting the url with slash, Since we only want the Id, we are targetting the Id 3rd index
+    getProduct(req, res, id); //passing the id in to the controller function
+  } else { 
     res.writeHead(404, { "Content-Type": "application/json" });
     res.end(JSON.stringify({ message: "Route not found" }));
   }

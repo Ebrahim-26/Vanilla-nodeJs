@@ -1,0 +1,14 @@
+Here we are dealing with model and controller [usually we have a design system like MVC]
+
+For 'view' we can use react
+
+'models' - Models deals with data, here we are dealing with json files [strictly be used for CRUD]
+'controller' - controller is going to controller wha the particular route is doing. like the status, header and what we are sending. 
+                It is also doing to interact with the model.  
+
+----------------------------------------------------------------------
+When a req is made with certain end points, it calls the respective controller, then the controller calls in the data from the modal
+
+server is dependent on controller,
+controller is dependent on modal,
+modal is dependent on the json (json for this project)
