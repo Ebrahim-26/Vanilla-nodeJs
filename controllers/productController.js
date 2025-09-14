@@ -2,7 +2,7 @@
 //                 It is also doing to interact with the model.
 
 const Product = require("../models/productModel");
-
+const { getPostData } = require('../utils')
 // Gets all products
 async function getProducts(req, res) {
   try {
@@ -34,15 +34,22 @@ async function getProduct(req, res, id) { //Sends the ID as argument in to the f
 //POST: create product
 async function createProduct(req, res) {
   try {
-    const product = {
-      title: 'test pro',
-      description:'This is a test product',
-      price: 100,
-    }
+    const body = await getPostData(req) //the getPostData catches the request body and resoleves (returns) it to this body
 
+    const { title, description, price } = JSON.parse(body) // title,descp and price are destructured from the above body, which we initially got from the request
+
+    const product = { // we are then assigning the destructured data to product
+      title,
+      description,
+      price,
+    }
     const newProduct = await Product.create(product)
+
     res.writeHead(201,{'Content-Tpye':'application/json'})
     return res.end(JSON.stringify(newProduct))
+
+
+   
   } catch (error) {
     console.log(error);
   }
