@@ -1,6 +1,6 @@
 //Models deals with data bases
 // moving the product from server.js file to productModel
-const products = require("../data/products.json"); //getting the data from the json file
+let products = require("../data/products.json"); //getting the data from the json file
 const { v4: uuidv4 } = require("uuid");
 const { writeDataToFile } = require("../utils");
 
@@ -34,10 +34,20 @@ function update(id, product) {
     resolve(products[index]);
   });
 }
+function deleteProduct(id) {
+  return new Promise((resolve, reject) => {
+    products = products.filter((r)=>r.id !== id)
+    writeDataToFile("./data/products.json", products);
+    resolve();
+  });
+}
+
+
 
 module.exports = {
   findAll,
   findById,
   create,
   update,
+  deleteProduct,
 };
