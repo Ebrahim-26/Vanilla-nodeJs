@@ -31,7 +31,26 @@ async function getProduct(req, res, id) { //Sends the ID as argument in to the f
   }
 }
 
+//POST: create product
+async function createProduct(req, res) {
+  try {
+    const product = {
+      title: 'test pro',
+      description:'This is a test product',
+      price: 100,
+    }
+
+    const newProduct = await Product.create(product)
+    res.writeHead(201,{'Content-Tpye':'application/json'})
+    return res.end(JSON.stringify(newProduct))
+  } catch (error) {
+    console.log(error);
+  }
+}
+
+
 module.exports = {
   getProducts,
   getProduct,
+  createProduct,
 };
